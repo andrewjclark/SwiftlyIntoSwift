@@ -54,9 +54,8 @@ if name.containsString(" ") {
 }
 
 print(name)
-print(name.uppercaseString)
-print(name.lowercaseString)
-print(name.capitalizedString)
+print(name.uppercaseString) // On IBM Swift Sandbox this should be name.uppercased()
+print(name.lowercaseString) // On IBM Swift Sandbox this should be name.lowercased()
 
 
 // Arrays and Looping
@@ -72,7 +71,7 @@ var namesThatContainJ:[String] = []
 
 for name in names {
     print(name)
-    if name.lowercaseString.containsString("j") {
+    if name.lowercaseString.containsString("j") { // On IBM Swift Sandbox this should be name.lowercased()
         namesThatContainJ.append(name)
     }
 }
@@ -127,7 +126,6 @@ class Person: CustomStringConvertible { // This is a Person class, containing so
         self.gender = gender
         self.hasPassport = hasPassport
     }
-    
 }
 
 // Let's make some People!
