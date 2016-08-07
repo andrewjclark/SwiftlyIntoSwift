@@ -12,8 +12,6 @@ class PersonViewController: UIViewController {
 
     @IBOutlet weak var myLabel: UILabel!
     
-    @IBOutlet weak var myButton: UIButton!
-    
     var currentPerson = Person()
     
     override func viewDidLoad() {
@@ -22,10 +20,8 @@ class PersonViewController: UIViewController {
         view.backgroundColor = UIColor.whiteColor()
         
         myLabel.backgroundColor = UIColor.whiteColor()
-        myLabel.textColor = UIColor.redColor()
+        myLabel.textColor = UIColor.blackColor()
         myLabel.textAlignment = NSTextAlignment.Center
-        
-        myButton.backgroundColor = UIColor.greenColor()
         
         // We call updateView here. "currentPerson" might have been set by another view, or it might just be a default Person object. Either way let's update the user interface.
         updateView()
@@ -33,25 +29,23 @@ class PersonViewController: UIViewController {
     
     func updateView() {
         // Update view for the currentPerson property.
+        self.navigationItem.title = "Person View"
         
-        myLabel.text = "Name is \(currentPerson.name)\nYear is \(currentPerson.year)\nGender is: \(currentPerson.gender)"
-    }
-    
-    
-    @IBAction func userPressedButton(sender: UIButton) {
-        // The user pressed the "Update Button" so let's replace the currentPerson with a new "Liesbeth" person.
+        var labelText = "Name is \(currentPerson.name)\nBirth year is: \(currentPerson.year)\nApproximate age is: \(2016 - currentPerson.year)\nGender is: \(currentPerson.gender)"
         
-        currentPerson = Person(name: "Liesbeth", year: 1985, gender: "F", hasPassport: true)
+        if currentPerson.hasPassport {
+            labelText += "\nHas passport"
+        } else {
+            labelText += "\nNo passport"
+        }
         
-        updateView()
-    }
-    
-    
-    @IBAction func userPressedDismiss(sender: AnyObject) {
-        // The user pressed the Dismiss button, let's call "dismissViewController" which tells the view to disappear and reveal the previous view.
+        if currentPerson.isAdult(2017) {
+            labelText += "\nAdult"
+        } else {
+            labelText += "\nNot an Adult"
+        }
         
-        self.dismissViewControllerAnimated(true, completion: nil)
-        
+        myLabel.text = labelText
     }
 }
 

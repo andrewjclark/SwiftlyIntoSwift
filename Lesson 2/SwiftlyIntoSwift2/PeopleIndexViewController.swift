@@ -8,44 +8,49 @@
 
 import UIKit
 
-class PeopleIndexViewController: UITableViewController {
+class PeopleIndexViewController: UITableViewController, NewPersonViewControllerDelegate {
     
     // people is an array that contains Person objects
     var people = [Person]()
     
     override func viewDidLoad() {
-        view.backgroundColor = UIColor.redColor()
         
         // Let's setup some people.
         
-        people.append(Person(name: "AJC", year: 2016, gender: "M", hasPassport: true))
-        people.append(Person(name: "Fico", year: 2016, gender: "M", hasPassport: true))
-        people.append(Person(name: "Liesbeth", year: 2016, gender: "M", hasPassport: true))
-        people.append(Person(name: "Brian", year: 2016, gender: "M", hasPassport: true))
+        people.append(Person(name: "AJC", year: 1987, gender: "M", hasPassport: true))
+        people.append(Person(name: "Fico", year: 1989, gender: "M", hasPassport: true))
+        people.append(Person(name: "Liesbeth", year: 1985, gender: "F", hasPassport: true))
+        people.append(Person(name: "Brian", year: 1990, gender: "M", hasPassport: true))
+        
+        // Add a UIBarButton item to this view's navigation item (so it appears in the top section)
     }
     
-    // These functions are provided by the UITableViewController class that our PeopleIndexViewController is *subclassing* from. We override them and return our own values and this allows us to control the table view controller.
+    func userPressedNewPersonButton() {
+        // Present the NewPersonViewController and set "self" as the delegate.
+    }
+    
+    func newPerson(person: Person) {
+        // This view has received a person. Append people and reload
+    }
+    
+    // These functions are provided by the UITableViewController class that our PeopleIndexViewController is *subclassing* from. We override them and return our own values and this allows us to control the table view cells.
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        print("numberOfSections")
         // We want to have only 1 section here.
         return 1
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("numberOfRowsInSection")
         // We want our 1 section to contain that same number of cells as we have Person's in our people array.
         return people.count
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        print("heightForRowAtIndexPath")
         // Let's make all of the cells the same height - 100 points (pixels).
         return 100
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        print("cellForRowAtIndexPath - \(indexPath.row)")
         
         // This method is called whenever the tableview needs to create a new cell. This happens when the view first appears, and then as we scroll up and down and cells's enter/leave the view.
         
@@ -53,14 +58,11 @@ class PeopleIndexViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell!
         
-        // Let's set this cell's background color
-        cell.backgroundColor = UIColor.lightGrayColor()
-        
         // Now, let's get the person from our people array that is relevant to this particular indexPath. Remember that the number of cells in this table is controlled in the above numberOfRowsInSection function, which return the people's arrays "count" property. If there are 5 people there should be 5 cells, and we can get the matching person with this line:
         let thisPerson = people[indexPath.row]
         
         // We have our person, let's change the textLabel inside this cell to have a text property that is a string containing some of thisPerson's properties.
-        cell.textLabel?.text = "\(thisPerson.name) \(thisPerson.year) - \(indexPath.row)"
+        cell.textLabel?.text = "\(thisPerson.name) \(thisPerson.year)"
         
         return cell
     }
@@ -81,9 +83,13 @@ class PeopleIndexViewController: UITableViewController {
         // We can now set newViewController's currentPerson property to this person.
         newViewController.currentPerson = thisPerson
         
-        // We call presentViewController, pass our instance of PersonViewController and the view appears, animated and working as expected.
-        presentViewController(newViewController, animated: true, completion: nil)
+        // We call presentViewController and push it on this view's navigation controller
+        self.navigationController?.pushViewController(newViewController, animated: true)
     }
+    
+    
+    
+    
     
     
     
